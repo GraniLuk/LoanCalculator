@@ -90,6 +90,10 @@
     <Compile Include="Migrations\201709191604092_UpdateIntervalType.Designer.cs">
       <DependentUpon>201709191604092_UpdateIntervalType.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201709191659557_SetPropertiesInLoanAsRequired.cs" />
+    <Compile Include="Migrations\201709191659557_SetPropertiesInLoanAsRequired.Designer.cs">
+      <DependentUpon>201709191659557_SetPropertiesInLoanAsRequired.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Installment.cs" />
     <Compile Include="Models\IntervalType.cs" />
@@ -120,6 +124,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201709191604092_UpdateIntervalType.resx">
       <DependentUpon>201709191604092_UpdateIntervalType.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201709191659557_SetPropertiesInLoanAsRequired.resx">
+      <DependentUpon>201709191659557_SetPropertiesInLoanAsRequired.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

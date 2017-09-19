@@ -133,13 +133,20 @@
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="Scripts\jquery-1.9.1.js" />
     <Content Include="Scripts\jquery-1.9.1.min.js" />
+    <None Include="Scripts\jquery.validate-vsdoc.js" />
+    <Content Include="Scripts\jquery.validate.js" />
+    <Content Include="Scripts\jquery.validate.min.js" />
     <Content Include="Scripts\modernizr-2.6.2.js" />
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="App_Start\BoundleConfig.cs" />
+    <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="Controllers\CalculatorController.cs" />
     <Compile Include="Controllers\LoanController.cs" />
+    <Compile Include="Controllers\ScheduleController.cs" />
+    <Compile Include="Models\LoanCalculator.cs" />
+    <Compile Include="ViewModels\LoanFormViewModel.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -148,11 +155,11 @@
   <ItemGroup>
     <Content Include="Views\web.config" />
     <None Include="packages.config" />
-    <Content Include="Views\Loan\Create.cshtml" />
     <Content Include="Scripts\jquery-1.9.1.min.map" />
     <Content Include="Views\_ViewStart.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Views\Shared\_NavBar.cshtml" />
+    <Content Include="Views\Loan\New.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -162,7 +169,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Models\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\LoanCalculator.Data\LoanCalculator.Data.csproj">
