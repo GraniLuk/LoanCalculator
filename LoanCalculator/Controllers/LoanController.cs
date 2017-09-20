@@ -21,44 +21,26 @@ namespace LoanCalculator.Controllers
         {
             var viewModel = new LoanFormViewModel
             {
-                Loan = new Loan(),
-                LoanType = _db.LoanTypes.ToList()
-        };
+                LoanTypes = _db.LoanTypes.ToList()
+            };
 
             return View(viewModel);
         }
         [HttpPost]
-        public ActionResult Validate(Loan loan)
+        public ActionResult Validate(LoanFormViewModel loanFormViewModel)
         {
             if (!ModelState.IsValid)
             {
                 var viewModel = new LoanFormViewModel
                 {
-                    Loan = new Loan(),
-                    LoanType = _db.LoanTypes.ToList()
+                    LoanTypes = _db.LoanTypes.ToList()
             };
 
                 return View("New",viewModel);
             }
 
-            return RedirectToAction("Calculate", "Calculator", loan);
+            return RedirectToAction("Calculate", "Calculator", loanFormViewModel);
         }
-
-        // POST: Loan/Create
-        //[HttpPost]
-        //public ActionResult Create(Loan loan)
-        //{
-        //    try
-        //    {
-        //        // TODO: Add insert logic here
-
-        //        return RedirectToAction("Index");
-        //    }
-        //    catch
-        //    {
-        //        return View();
-        //    }
-        //}
 
         protected override void Dispose(bool disposing)
         {

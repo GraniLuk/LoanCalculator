@@ -66,33 +66,17 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="LoanDb.cs" />
-    <Compile Include="Migrations\201709191543416_AddLoanTypesTable.cs" />
-    <Compile Include="Migrations\201709191543416_AddLoanTypesTable.Designer.cs">
-      <DependentUpon>201709191543416_AddLoanTypesTable.cs</DependentUpon>
+    <Compile Include="Migrations\201709201449225_AddLoanTypesTable1.cs" />
+    <Compile Include="Migrations\201709201449225_AddLoanTypesTable1.Designer.cs">
+      <DependentUpon>201709201449225_AddLoanTypesTable1.cs</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201709191544349_PopulateLoanTypesTable.cs" />
-    <Compile Include="Migrations\201709191544349_PopulateLoanTypesTable.Designer.cs">
-      <DependentUpon>201709191544349_PopulateLoanTypesTable.cs</DependentUpon>
+    <Compile Include="Migrations\201709201449441_PopulateLoanTypesTable1.cs" />
+    <Compile Include="Migrations\201709201449441_PopulateLoanTypesTable1.Designer.cs">
+      <DependentUpon>201709201449441_PopulateLoanTypesTable1.cs</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201709191552253_ReduceNameLength.cs" />
-    <Compile Include="Migrations\201709191552253_ReduceNameLength.Designer.cs">
-      <DependentUpon>201709191552253_ReduceNameLength.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201709191556160_AddLoanTable.cs" />
-    <Compile Include="Migrations\201709191556160_AddLoanTable.Designer.cs">
-      <DependentUpon>201709191556160_AddLoanTable.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201709191603079_AddIntervalTypeToLoanTypeTable.cs" />
-    <Compile Include="Migrations\201709191603079_AddIntervalTypeToLoanTypeTable.Designer.cs">
-      <DependentUpon>201709191603079_AddIntervalTypeToLoanTypeTable.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201709191604092_UpdateIntervalType.cs" />
-    <Compile Include="Migrations\201709191604092_UpdateIntervalType.Designer.cs">
-      <DependentUpon>201709191604092_UpdateIntervalType.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201709191659557_SetPropertiesInLoanAsRequired.cs" />
-    <Compile Include="Migrations\201709191659557_SetPropertiesInLoanAsRequired.Designer.cs">
-      <DependentUpon>201709191659557_SetPropertiesInLoanAsRequired.cs</DependentUpon>
+    <Compile Include="Migrations\201709201454003_AddLoanTable1.cs" />
+    <Compile Include="Migrations\201709201454003_AddLoanTable1.Designer.cs">
+      <DependentUpon>201709201454003_AddLoanTable1.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Installment.cs" />
@@ -107,26 +91,14 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201709191543416_AddLoanTypesTable.resx">
-      <DependentUpon>201709191543416_AddLoanTypesTable.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201709201449225_AddLoanTypesTable1.resx">
+      <DependentUpon>201709201449225_AddLoanTypesTable1.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201709191544349_PopulateLoanTypesTable.resx">
-      <DependentUpon>201709191544349_PopulateLoanTypesTable.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201709201449441_PopulateLoanTypesTable1.resx">
+      <DependentUpon>201709201449441_PopulateLoanTypesTable1.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201709191552253_ReduceNameLength.resx">
-      <DependentUpon>201709191552253_ReduceNameLength.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201709191556160_AddLoanTable.resx">
-      <DependentUpon>201709191556160_AddLoanTable.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201709191603079_AddIntervalTypeToLoanTypeTable.resx">
-      <DependentUpon>201709191603079_AddIntervalTypeToLoanTypeTable.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201709191604092_UpdateIntervalType.resx">
-      <DependentUpon>201709191604092_UpdateIntervalType.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201709191659557_SetPropertiesInLoanAsRequired.resx">
-      <DependentUpon>201709191659557_SetPropertiesInLoanAsRequired.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201709201454003_AddLoanTable1.resx">
+      <DependentUpon>201709201454003_AddLoanTable1.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

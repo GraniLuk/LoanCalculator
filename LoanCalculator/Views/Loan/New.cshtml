@@ -11,21 +11,20 @@
 {
     @Html.ValidationSummary(true, "Please fix the following errors.", new { @class = "text-danger" })
     <div class="form-group">
-        @Html.LabelFor(m => m.Loan.LoanType.Id)
-        @Html.DropDownListFor(m => m.Loan.LoanType.Id, new SelectList(Model.LoanType, "Id", "Name"), "", new { @class = "form-control" })
-        @Html.ValidationMessageFor(m => m.Loan.LoanType.Id)
+        @Html.LabelFor(m => m.LoanTypeId)
+        @Html.DropDownListFor(m => m.LoanTypeId, new SelectList(Model.LoanTypes, "Id", "Name"), "", new { @class = "form-control" })
+        @Html.ValidationMessageFor(m => m.LoanTypeId)
     </div>
-    <div class="form-group">
-        @Html.LabelFor(m => m.Loan.Amount)
-        @Html.TextBoxFor(m => m.Loan.Amount, new { @class = "form-control" })
-        @Html.ValidationMessageFor(m => m.Loan.Amount)
-    </div>
-    <div class="form-group">
-        @Html.LabelFor(m => m.Loan.PaybackTimeInYears)
-        @Html.TextBoxFor(m => m.Loan.PaybackTimeInYears, new { @class = "form-control" })
-        @Html.ValidationMessageFor(m => m.Loan.PaybackTimeInYears)
-    </div>
-    @Html.HiddenFor(m => m.Loan.Id)
+    <p>
+        <label for="NumberOfInstallments">Set desired number of installments:</label>
+        <input type="text" id="NumberOfInstallments" name="NumberOfInstallments" readonly style="border:0; color:#1F7EFF; font-weight:bold;">
+    </p>
+    <div id="sliderNumberOfInstallments"></div>
+    <p>
+        <label for="Amount">Set desired total amount of loan:</label>
+        <input type="text" id="Amount" name="Amount" readonly style="border:0; color:#1F7EFF; font-weight:bold;">
+    </p>
+    <div id="sliderAmount"></div>
     @Html.AntiForgeryToken()
     <button type="submit" class="btn btn-primary">Calculate</button>
 }
@@ -33,5 +32,35 @@
 @section scripts
 {
     @Scripts.Render("~/bundles/jqueryval")
+    <script>
+        $(function () {
+            $("#sliderAmount").slider({
+                min: 1000,
+                max: 10000,
+                step: 100,
+                slide: function (event, ui) {
+                    $("#Amount").val(ui.value);
+                }
+            });
+            var value = $("#sliderAmount").slider("value");
+            $("#Amount").val(value);
+        });
+    </script>
+
+    <script>
+        $(function () {
+            $("#sliderNumberOfInstallments").slider({
+                min: 1,
+                max: 100,
+                step: 1,
+                slide: function (event, ui) {
+                    $("#NumberOfInstallments").val(ui.value);
+                }
+            });
+            var value = $("#sliderNumberOfInstallments").slider("value");
+            $("#NumberOfInstallments").val(value);
+        });
+    </script>
+
 }
 
