@@ -132,9 +132,9 @@ namespace LoanCalculator.Tests.Models
         private readonly decimal _interestRatePerPeriod;
         public FixedRateCalculator(Loan loan)
         {
-            var numberOfInstallmentsInRateIntervalPeriod =
-               ((decimal)loan.LoanType.RateIntervalPeriodInMonths / loan.LoanType.PaymentIntervalPeriodInMonths);
-            _interestRatePerPeriod = loan.LoanType.InterestRate * numberOfInstallmentsInRateIntervalPeriod;
+            var partOfRateIntervalInOnePaymentInterval =
+                (decimal)loan.LoanType.RateIntervalPeriodInMonths / loan.LoanType.PaymentIntervalPeriodInMonths;
+            _interestRatePerPeriod = loan.LoanType.InterestRate * partOfRateIntervalInOnePaymentInterval;
         }
 
         public decimal GetInterest(decimal per, decimal nPer, decimal pv, decimal fv, FinancialEnumDueDate due)
