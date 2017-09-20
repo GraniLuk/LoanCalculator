@@ -7,7 +7,7 @@ namespace LoanCalculator.Controllers
     {
         public ActionResult Calculate(Loan loan)
         {
-            var loanCalucator = new Models.LoanCalculator(loan);
+            var loanCalucator = new Models.Calculator(loan);
             var schedule = loanCalucator.GetSchedule();
             return RedirectToAction("Get", "Schedule", schedule);
         }

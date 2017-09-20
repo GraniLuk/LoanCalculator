@@ -13,7 +13,8 @@ namespace LoanCalculator.Data.Models
         [StringLength(25)]
         public string Name { get; set; }
         public decimal InterestRate { get; set; }
-        public IntervalType IntervalType { get; set; }
+        public int PaymentIntervalPeriodInMonths { get; set; }
+        public int RateIntervalPeriodInMonths { get; set; }
        
     }
 }

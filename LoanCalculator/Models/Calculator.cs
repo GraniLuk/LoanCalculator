@@ -6,18 +6,22 @@ using LoanCalculator.Data.Models;
 
 namespace LoanCalculator.Models
 {
-    public class LoanCalculator
+    public class Calculator
     {
         private readonly Loan _loan;
 
-        public LoanCalculator(Loan loan)
+        public Calculator(Loan loan)
         {
             _loan = loan;
         }
 
         public Schedule GetSchedule()
         {
+
             return new Schedule();
         }
+
+
+       
     }
 }

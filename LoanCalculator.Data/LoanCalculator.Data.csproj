@@ -78,6 +78,10 @@
     <Compile Include="Migrations\201709201454003_AddLoanTable1.Designer.cs">
       <DependentUpon>201709201454003_AddLoanTable1.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201709201627459_AddRateIntervalTypeColumn.cs" />
+    <Compile Include="Migrations\201709201627459_AddRateIntervalTypeColumn.Designer.cs">
+      <DependentUpon>201709201627459_AddRateIntervalTypeColumn.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Installment.cs" />
     <Compile Include="Models\IntervalType.cs" />
@@ -99,6 +103,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201709201454003_AddLoanTable1.resx">
       <DependentUpon>201709201454003_AddLoanTable1.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201709201627459_AddRateIntervalTypeColumn.resx">
+      <DependentUpon>201709201627459_AddRateIntervalTypeColumn.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
