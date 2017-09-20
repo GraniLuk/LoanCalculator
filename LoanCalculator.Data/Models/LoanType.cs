@@ -15,6 +15,7 @@ namespace LoanCalculator.Data.Models
         public decimal InterestRate { get; set; }
         public int PaymentIntervalPeriodInMonths { get; set; }
         public int RateIntervalPeriodInMonths { get; set; }
+        public DueTime DueTime { get; set; }
        
     }
 }

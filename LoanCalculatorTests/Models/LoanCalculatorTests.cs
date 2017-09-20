@@ -60,8 +60,8 @@ namespace LoanCalculator.Tests.Models
             };
             var fixedRateCalculator = new FixedRateCalculator(loan);
             //Act
-            var resultSchedule =Math.Round(fixedRateCalculator.GetCapitalRate(1, FinancialEnumDueDate.EndOfPeriod) +
-                                           fixedRateCalculator.GetInterestRate(1, FinancialEnumDueDate.EndOfPeriod),2);
+            var resultSchedule =Math.Round(fixedRateCalculator.GetCapitalRate(1) +
+                                           fixedRateCalculator.GetInterestRate(1),2);
             var expectedFirstRate = expected.FirstOrDefault(x => x.Number == 1).Interest +
                                     expected.FirstOrDefault(x => x.Number == 1).Capital;
             //Assert
@@ -112,13 +112,14 @@ namespace LoanCalculator.Tests.Models
                     InterestRate = 0.0315m,
                     RateIntervalPeriodInMonths = 1,
                     PaymentIntervalPeriodInMonths = 12,
-                    Name = "HousingLoan"
+                    Name = "HousingLoan",
+                    DueTime = DueTime.EndOfPeriod
                 }
             };
             var fixedRateCalculator = new FixedRateCalculator(loan);
             //Act
-            var resultSchedule = Math.Round(fixedRateCalculator.GetCapitalRate(2, FinancialEnumDueDate.EndOfPeriod) +
-                                            fixedRateCalculator.GetInterestRate(2, FinancialEnumDueDate.EndOfPeriod), 2);
+            var resultSchedule = Math.Round(fixedRateCalculator.GetCapitalRate(2) +
+                                            fixedRateCalculator.GetInterestRate(2), 2);
             var expectedFirstRate = expected.FirstOrDefault(x => x.Number == 2).Interest +
                                     expected.FirstOrDefault(x => x.Number == 2).Capital;
             //Assert
@@ -131,55 +132,57 @@ namespace LoanCalculator.Tests.Models
     {
         private readonly decimal _interestRatePerPeriod;
         private readonly decimal _amountToRepay;
-        private readonly int _numberOfInstallments;
+        private readonly int _totalNumberOfInstallments;
+        private readonly DueTime _dueTime;
         public FixedRateCalculator(Loan loan)
         {
             var partOfRateIntervalInOnePaymentInterval =
                 (decimal)loan.LoanType.RateIntervalPeriodInMonths / loan.LoanType.PaymentIntervalPeriodInMonths;
             _interestRatePerPeriod = loan.LoanType.InterestRate * partOfRateIntervalInOnePaymentInterval;
             _amountToRepay = -(loan.Amount);
-            _numberOfInstallments = loan.NumberOfInstallments;
+            _totalNumberOfInstallments = loan.NumberOfInstallments;
+            _dueTime = loan.LoanType.DueTime;
         }
 
-        public decimal GetInterestRate(int numberOfInstallment, FinancialEnumDueDate due, decimal futureValue = 0)
+        public decimal GetInterestRate(int numberOfInstallment, decimal futureValue = 0)
         {
             decimal presentValue = _amountToRepay;
-            decimal num = due != FinancialEnumDueDate.EndOfPeriod ? 2 : 1;
-            if ((numberOfInstallment <= 0) || (numberOfInstallment >= (_numberOfInstallments + 1)))
+            decimal num = _dueTime != DueTime.EndOfPeriod ? 2 : 1;
+            if ((numberOfInstallment <= 0) || (numberOfInstallment >= (_totalNumberOfInstallments + 1)))
             {
-                throw new ArgumentException("Argument 'Per' is not a valid value.");
+                throw new ArgumentException("Number of installment is not a valid value.");
             }
-            if ((due != FinancialEnumDueDate.EndOfPeriod) && (numberOfInstallment == 1))
+            if ((_dueTime != DueTime.EndOfPeriod) && (numberOfInstallment == 1))
             {
                 return 0;
             }
-            var pmt = Pmt(_numberOfInstallments, presentValue, due);
-            if (due != FinancialEnumDueDate.EndOfPeriod)
+            var pmt = Pmt(_totalNumberOfInstallments, presentValue);
+            if (_dueTime != DueTime.EndOfPeriod)
             {
                 presentValue += pmt;
             }
-            return (FV_Internal(numberOfInstallment - num, pmt, presentValue, FinancialEnumDueDate.EndOfPeriod) * _interestRatePerPeriod);
+            return (FV_Internal(numberOfInstallment - num, pmt, presentValue) * _interestRatePerPeriod);
         }
 
-        public decimal GetCapitalRate(int numberOfInstallment, FinancialEnumDueDate due, decimal futureValue = 0)
+        public decimal GetCapitalRate(int numberOfInstallment, decimal futureValue = 0)
         {
-            if ((numberOfInstallment <= 0) || (numberOfInstallment >= (_numberOfInstallments + 1)))
+            if ((numberOfInstallment <= 0) || (numberOfInstallment >= (_totalNumberOfInstallments + 1)))
             {
                 throw new ArgumentException("Argument 'Per' is not valid.");
             }
-            var num2 = Pmt(_numberOfInstallments, _amountToRepay, due);
-            var num = GetInterestRate(numberOfInstallment, due);
+            var num2 = Pmt(_totalNumberOfInstallments, _amountToRepay);
+            var num = GetInterestRate(numberOfInstallment);
             return (num2 - num);
         }
 
-        private decimal FV_Internal(decimal NPer, decimal Pmt, decimal PV, FinancialEnumDueDate Due)
+        private decimal FV_Internal(decimal NPer, decimal Pmt, decimal PV)
         {
             decimal num;
             if (_interestRatePerPeriod == 0)
             {
                 return (-PV - (Pmt * NPer));
             }
-            if (Due != FinancialEnumDueDate.EndOfPeriod)
+            if (_dueTime != DueTime.EndOfPeriod)
             {
                 num = 1 + _interestRatePerPeriod;
             }
@@ -192,7 +195,7 @@ namespace LoanCalculator.Tests.Models
             return ((-PV * num2) - (((Pmt / _interestRatePerPeriod) * num) * (num2 - 1)));
         }
 
-        private decimal Pmt(decimal NPer, decimal PV, FinancialEnumDueDate Due, decimal futureValue = 0)
+        private decimal Pmt(decimal NPer, decimal PV, decimal futureValue = 0)
         {
             decimal num;
             if (NPer == 0)
@@ -203,7 +206,7 @@ namespace LoanCalculator.Tests.Models
             {
                 return ((-futureValue - PV) / NPer);
             }
-            if (Due != FinancialEnumDueDate.EndOfPeriod)
+            if (_dueTime != DueTime.EndOfPeriod)
             {
                 num = 1 + _interestRatePerPeriod;
             }
