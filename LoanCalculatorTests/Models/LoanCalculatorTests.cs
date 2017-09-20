@@ -60,8 +60,8 @@ namespace LoanCalculator.Tests.Models
             };
             var fixedRateCalculator = new FixedRateCalculator(loan);
             //Act
-            var resultSchedule =Math.Round(fixedRateCalculator.GetCapitalRate(1) +
-                                           fixedRateCalculator.GetInterestRate(1),2);
+            var resultSchedule =fixedRateCalculator.GetCapitalRate(1) +
+                                           fixedRateCalculator.GetInterestRate(1);
             var expectedFirstRate = expected.FirstOrDefault(x => x.Number == 1).Interest +
                                     expected.FirstOrDefault(x => x.Number == 1).Capital;
             //Assert
@@ -118,8 +118,8 @@ namespace LoanCalculator.Tests.Models
             };
             var fixedRateCalculator = new FixedRateCalculator(loan);
             //Act
-            var resultSchedule = Math.Round(fixedRateCalculator.GetCapitalRate(2) +
-                                            fixedRateCalculator.GetInterestRate(2), 2);
+            var resultSchedule = fixedRateCalculator.GetCapitalRate(2) +
+                                 fixedRateCalculator.GetInterestRate(2);
             var expectedFirstRate = expected.FirstOrDefault(x => x.Number == 2).Interest +
                                     expected.FirstOrDefault(x => x.Number == 2).Capital;
             //Assert
@@ -161,7 +161,7 @@ namespace LoanCalculator.Tests.Models
             {
                 presentValue += pmt;
             }
-            return (FV_Internal(numberOfInstallment - num, pmt, presentValue) * _interestRatePerPeriod);
+            return decimal.Round((FV_Internal(numberOfInstallment - num, pmt, presentValue) * _interestRatePerPeriod),2,MidpointRounding.AwayFromZero);
         }
 
         public decimal GetCapitalRate(int numberOfInstallment, decimal futureValue = 0)
@@ -172,7 +172,7 @@ namespace LoanCalculator.Tests.Models
             }
             var num2 = Pmt(_totalNumberOfInstallments, _amountToRepay);
             var num = GetInterestRate(numberOfInstallment);
-            return (num2 - num);
+            return decimal.Round(num2 - num,2,MidpointRounding.AwayFromZero);
         }
 
         private decimal FV_Internal(decimal NPer, decimal Pmt, decimal PV)
@@ -218,10 +218,5 @@ namespace LoanCalculator.Tests.Models
             decimal num2 = (decimal)Math.Pow((double)x, (double)NPer);
             return (-futureValue - PV * num2) / (num * (num2 - 1)) * _interestRatePerPeriod;
         }
-    }
-
-    public enum FinancialEnumDueDate
-    {
-        EndOfPeriod,StartPeriod
     }
 }
