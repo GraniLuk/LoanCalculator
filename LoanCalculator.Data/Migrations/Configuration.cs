@@ -1,3 +1,5 @@
+using LoanCalculator.Data.Models;
+
 namespace LoanCalculator.Data.Migrations
 {
     using System;
@@ -9,23 +11,18 @@ namespace LoanCalculator.Data.Migrations
     {
         public Configuration()
         {
-            AutomaticMigrationsEnabled = false;
+            AutomaticMigrationsEnabled = true;
         }
 
-        protected override void Seed(LoanCalculator.Data.LoanDb context)
+        protected override void Seed(LoanDb context)
         {
-            //  This method will be called after migrating to the latest version.
+            context.IntervalTypes.AddOrUpdate(x => x.Id,
+                new IntervalType() { Id = 1, Months = 12, Name = "Yearly" },
+                new IntervalType() { Id = 1, Months = 1, Name = "Monthly" }
+                );
 
-            //  You can use the DbSet<T>.AddOrUpdate() helper extension method 
-            //  to avoid creating duplicate seed data. E.g.
-            //
-            //    context.People.AddOrUpdate(
-            //      p => p.FullName,
-            //      new Person { FullName = "Andrew Peters" },
-            //      new Person { FullName = "Brice Lambson" },
-            //      new Person { FullName = "Rowan Miller" }
-            //    );
-            //
+            context.LoanTypes.AddOrUpdate(x => x.Id,
+                new LoanType() { DueTime = DueTime.EndOfPeriod, Id = 1, InterestRate = 0.035m, Name = "Housing loan", PaymentIntervalId = 2, RateIntervalId = 1 });
         }
     }
 }

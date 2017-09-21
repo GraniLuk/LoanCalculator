@@ -3,7 +3,6 @@ using System.Linq;
 using LoanCalculator.Data.Models;
 using LoanCalculator.Models;
 using LoanCalculator.Models.Calculator;
-using Microsoft.VisualBasic;
 using NUnit.Framework;
 
 namespace LoanCalculator.Tests.Models
@@ -53,8 +52,8 @@ namespace LoanCalculator.Tests.Models
                 {
                     Id = 1,
                     InterestRate = 0.0315m,
-                    RateIntervalPeriodInMonths = 1,
-                    PaymentIntervalPeriodInMonths = 12,
+                    RateInterval = new IntervalType() {Months = 1},
+                    PaymentInterval = new IntervalType() { Months = 12},
                     Name = "HousingLoan"
                 }
             };
@@ -111,8 +110,8 @@ namespace LoanCalculator.Tests.Models
                 {
                     Id = 1,
                     InterestRate = 0.0315m,
-                    RateIntervalPeriodInMonths = 1,
-                    PaymentIntervalPeriodInMonths = 12,
+                    RateInterval = new IntervalType() { Months = 1 },
+                    PaymentInterval = new IntervalType() { Months = 12 },
                     Name = "HousingLoan",
                     DueTime = DueTime.EndOfPeriod
                 }

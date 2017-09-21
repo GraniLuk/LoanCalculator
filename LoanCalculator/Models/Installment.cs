@@ -1,4 +1,4 @@
-﻿namespace LoanCalculator.Data.Models
+﻿namespace LoanCalculator.Models
 {
     public class Installment
     {

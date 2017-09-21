@@ -6,10 +6,8 @@ namespace LoanCalculator.Models
 {
     public class Schedule
     {
-        private readonly ICalculator calculator;
-        public Schedule(Loan loan)
+        public Schedule(Loan loan, ICalculator calculator)
         {
-            calculator = new FixedRateCalculator(loan);
             Installments = new List<Installment>();
             for (var i = 1; i <= loan.NumberOfInstallments; i++)
             {

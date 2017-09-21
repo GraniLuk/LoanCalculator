@@ -1,7 +1,9 @@
 namespace LoanCalculator.Data.Models
 {
-    public enum IntervalType
+    public class IntervalType
     {
-        Yearly =1, Monthly =2, Daily =3
+        public int Id { get; set; }
+        public string Name { get; set; }
+        public int Months { get; set; }
     }
 }

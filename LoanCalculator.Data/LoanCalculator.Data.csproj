@@ -66,41 +66,20 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="LoanDb.cs" />
-    <Compile Include="Migrations\201709201449225_AddLoanTypesTable1.cs" />
-    <Compile Include="Migrations\201709201449225_AddLoanTypesTable1.Designer.cs">
-      <DependentUpon>201709201449225_AddLoanTypesTable1.cs</DependentUpon>
+    <Compile Include="Migrations\201709211548058_InicializacjaModeli.cs" />
+    <Compile Include="Migrations\201709211548058_InicializacjaModeli.Designer.cs">
+      <DependentUpon>201709211548058_InicializacjaModeli.cs</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201709201449441_PopulateLoanTypesTable1.cs" />
-    <Compile Include="Migrations\201709201449441_PopulateLoanTypesTable1.Designer.cs">
-      <DependentUpon>201709201449441_PopulateLoanTypesTable1.cs</DependentUpon>
+    <Compile Include="Migrations\201709211554020_PopulateIntervalTypes.cs" />
+    <Compile Include="Migrations\201709211554020_PopulateIntervalTypes.Designer.cs">
+      <DependentUpon>201709211554020_PopulateIntervalTypes.cs</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201709201454003_AddLoanTable1.cs" />
-    <Compile Include="Migrations\201709201454003_AddLoanTable1.Designer.cs">
-      <DependentUpon>201709201454003_AddLoanTable1.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201709201627459_AddRateIntervalTypeColumn.cs" />
-    <Compile Include="Migrations\201709201627459_AddRateIntervalTypeColumn.Designer.cs">
-      <DependentUpon>201709201627459_AddRateIntervalTypeColumn.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201709201730567_AddDueTimeToLoanType.cs" />
-    <Compile Include="Migrations\201709201730567_AddDueTimeToLoanType.Designer.cs">
-      <DependentUpon>201709201730567_AddDueTimeToLoanType.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201709210756445_UpdateValuesInLoanType.cs" />
-    <Compile Include="Migrations\201709210756445_UpdateValuesInLoanType.Designer.cs">
-      <DependentUpon>201709210756445_UpdateValuesInLoanType.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201709210809217_ChangeScaleForInterestRate.cs" />
-    <Compile Include="Migrations\201709210809217_ChangeScaleForInterestRate.Designer.cs">
-      <DependentUpon>201709210809217_ChangeScaleForInterestRate.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201709210810063_ChangeInterestRateValue.cs" />
-    <Compile Include="Migrations\201709210810063_ChangeInterestRateValue.Designer.cs">
-      <DependentUpon>201709210810063_ChangeInterestRateValue.cs</DependentUpon>
+    <Compile Include="Migrations\201709211555334_PopulateLoanType.cs" />
+    <Compile Include="Migrations\201709211555334_PopulateLoanType.Designer.cs">
+      <DependentUpon>201709211555334_PopulateLoanType.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\DueTime.cs" />
-    <Compile Include="Models\Installment.cs" />
     <Compile Include="Models\IntervalType.cs" />
     <Compile Include="Models\Loan.cs" />
     <Compile Include="Models\LoanType.cs" />
@@ -111,29 +90,14 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201709201449225_AddLoanTypesTable1.resx">
-      <DependentUpon>201709201449225_AddLoanTypesTable1.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201709211548058_InicializacjaModeli.resx">
+      <DependentUpon>201709211548058_InicializacjaModeli.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201709201449441_PopulateLoanTypesTable1.resx">
-      <DependentUpon>201709201449441_PopulateLoanTypesTable1.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201709211554020_PopulateIntervalTypes.resx">
+      <DependentUpon>201709211554020_PopulateIntervalTypes.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201709201454003_AddLoanTable1.resx">
-      <DependentUpon>201709201454003_AddLoanTable1.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201709201627459_AddRateIntervalTypeColumn.resx">
-      <DependentUpon>201709201627459_AddRateIntervalTypeColumn.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201709201730567_AddDueTimeToLoanType.resx">
-      <DependentUpon>201709201730567_AddDueTimeToLoanType.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201709210756445_UpdateValuesInLoanType.resx">
-      <DependentUpon>201709210756445_UpdateValuesInLoanType.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201709210809217_ChangeScaleForInterestRate.resx">
-      <DependentUpon>201709210809217_ChangeScaleForInterestRate.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201709210810063_ChangeInterestRateValue.resx">
-      <DependentUpon>201709210810063_ChangeInterestRateValue.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201709211555334_PopulateLoanType.resx">
+      <DependentUpon>201709211555334_PopulateLoanType.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

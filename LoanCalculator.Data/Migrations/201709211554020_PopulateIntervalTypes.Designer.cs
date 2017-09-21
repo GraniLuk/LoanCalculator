@@ -7,13 +7,13 @@ namespace LoanCalculator.Data.Migrations
     using System.Resources;
     
     [GeneratedCode("EntityFramework.Migrations", "6.1.3-40302")]
-    public sealed partial class PopulateLoanTypesTable1 : IMigrationMetadata
+    public sealed partial class PopulateIntervalTypes : IMigrationMetadata
     {
-        private readonly ResourceManager Resources = new ResourceManager(typeof(PopulateLoanTypesTable1));
+        private readonly ResourceManager Resources = new ResourceManager(typeof(PopulateIntervalTypes));
         
         string IMigrationMetadata.Id
         {
-            get { return "201709201449441_PopulateLoanTypesTable1"; }
+            get { return "201709211554020_PopulateIntervalTypes"; }
         }
         
         string IMigrationMetadata.Source

@@ -24,6 +24,7 @@ namespace LoanCalculator.Data
 
         public virtual DbSet<LoanType> LoanTypes { get; set; }
         public virtual DbSet<Loan> Loans { get; set; }
+        public virtual DbSet<IntervalType> IntervalTypes { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {

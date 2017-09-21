@@ -1,10 +1,8 @@
-﻿using System;
-using System.Linq;
-using System.Web;
+﻿using System.Linq;
 using System.Web.Mvc;
 using LoanCalculator.Data;
-using LoanCalculator.Data.Models;
 using LoanCalculator.ViewModels;
+using System.Data.Entity;
 
 namespace LoanCalculator.Controllers
 {
@@ -39,14 +37,14 @@ namespace LoanCalculator.Controllers
                 return View("New",viewModel);
             }
 
-            var loan = new Loan()
-            {
-                Amount = loanFormViewModel.Amount,
-                NumberOfInstallments = loanFormViewModel.NumberOfInstallments,
-                LoanTypeId = loanFormViewModel.LoanTypeId
-            };
+            return RedirectToAction("Get", "Schedule", loanFormViewModel);
+        }
 
-            return RedirectToAction("Get", "Schedule", loan);
+        public ActionResult GetDetails(int id)
+        {
+            var loanType = _db.LoanTypes.Include(x=>x.RateInterval).Include(x=>x.PaymentInterval).FirstOrDefault(x => x.Id == id);
+
+            return PartialView("_loanDetailsPartial", loanType);
         }
 
         protected override void Dispose(bool disposing)

@@ -13,7 +13,7 @@ namespace LoanCalculator.Models.Calculator
         public FixedRateCalculator(Loan loan)
         {
             var partOfRateIntervalInOnePaymentInterval =
-                (decimal)loan.LoanType.RateIntervalPeriodInMonths / loan.LoanType.PaymentIntervalPeriodInMonths;
+                (decimal)loan.LoanType.RateInterval.Months / loan.LoanType.PaymentInterval.Months;
             _interestRatePerPeriod = loan.LoanType.InterestRate * partOfRateIntervalInOnePaymentInterval;
             _amountToRepay = -(loan.Amount);
             _totalNumberOfInstallments = loan.NumberOfInstallments;

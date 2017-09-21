@@ -7,13 +7,13 @@ namespace LoanCalculator.Data.Migrations
     using System.Resources;
     
     [GeneratedCode("EntityFramework.Migrations", "6.1.3-40302")]
-    public sealed partial class ChangeScaleForInterestRate : IMigrationMetadata
+    public sealed partial class PopulateLoanType : IMigrationMetadata
     {
-        private readonly ResourceManager Resources = new ResourceManager(typeof(ChangeScaleForInterestRate));
+        private readonly ResourceManager Resources = new ResourceManager(typeof(PopulateLoanType));
         
         string IMigrationMetadata.Id
         {
-            get { return "201709210809217_ChangeScaleForInterestRate"; }
+            get { return "201709211555334_PopulateLoanType"; }
         }
         
         string IMigrationMetadata.Source

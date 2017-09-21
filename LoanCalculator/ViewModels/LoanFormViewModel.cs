@@ -16,9 +16,9 @@ namespace LoanCalculator.ViewModels
         [Required]
         public int LoanTypeId { get; set; }
 
-        public LoanFormViewModel()
-        {
-            LoanTypeId = 1;
-        }
+        //public LoanFormViewModel()
+        //{
+        //    LoanTypeId = 1;
+        //}
     }
 }

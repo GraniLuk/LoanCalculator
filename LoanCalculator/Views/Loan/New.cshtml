@@ -14,6 +14,7 @@
         @Html.DropDownListFor(m => m.LoanTypeId, new SelectList(Model.LoanTypes, "Id", "Name"), "", new { @class = "form-control" })
         @Html.ValidationMessageFor(m => m.LoanTypeId)
     </div>
+    <div id="partialPlaceHolder" style="display:none;"> </div>
     <p>
         <label for="NumberOfInstallments">Set desired number of installments:</label>
         <input type="text" id="NumberOfInstallments" name="NumberOfInstallments" readonly style="border:0; color:#1F7EFF; font-weight:bold;">
@@ -32,12 +33,12 @@
 {
     @Scripts.Render("~/bundles/jqueryval")
     <script>
-        $(function () {
+        $(function() {
             $("#sliderAmount").slider({
                 min: 1000,
                 max: 80000,
                 step: 1000,
-                slide: function (event, ui) {
+                slide: function(event, ui) {
                     $("#Amount").val(ui.value);
                 }
             });
@@ -47,17 +48,44 @@
     </script>
 
     <script>
-        $(function () {
+        $(function() {
             $("#sliderNumberOfInstallments").slider({
                 min: 1,
                 max: 100,
                 step: 1,
-                slide: function (event, ui) {
+                slide: function(event, ui) {
                     $("#NumberOfInstallments").val(ui.value);
                 }
             });
             var value = $("#sliderNumberOfInstallments").slider("value");
             $("#NumberOfInstallments").val(value);
+        });
+    </script>
+    <script>
+        /* This is change event for your dropdownlist */
+        $('#LoanTypeId').change(function() {
+
+            /* Get the selected value of dropdownlist */
+            var selectedId = $(this).val();
+
+            if (selectedId === '')
+            {
+                $('#partialPlaceHolder').hide();
+            }
+            else
+            {
+
+                /* Request the partial view with .get request. */
+                $.get('/Loan/GetDetails/' + selectedId,
+                    function (data) {
+
+                        /* data is the pure html returned from action method, load it to your page */
+                        $('#partialPlaceHolder').html(data);
+                        /* little fade in effect */
+                        $('#partialPlaceHolder').fadeIn('fast');
+                    });
+            }
+
         });
     </script>
 

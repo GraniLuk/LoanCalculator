@@ -2,7 +2,9 @@
 using System.Web.Mvc;
 using LoanCalculator.Data;
 using LoanCalculator.Data.Models;
-using Schedule = LoanCalculator.Models.Schedule;
+using LoanCalculator.Models;
+using LoanCalculator.Models.Calculator;
+using System.Data.Entity;
 
 namespace LoanCalculator.Controllers
 {
@@ -17,9 +19,9 @@ namespace LoanCalculator.Controllers
 
         public ActionResult Get(Loan loan)
         {
-            loan.LoanType = _db.LoanTypes.FirstOrDefault(x => x.Id == loan.LoanTypeId);
+            loan.LoanType = _db.LoanTypes.Include(x => x.RateInterval).Include(x => x.PaymentInterval).FirstOrDefault(x => x.Id == loan.LoanTypeId);
 
-            return View(new Schedule(loan));
+            return View(new Schedule(loan, new FixedRateCalculator(loan)));
         }
         protected override void Dispose(bool disposing)
         {
