@@ -66,17 +66,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="LoanDb.cs" />
-    <Compile Include="Migrations\201709211548058_InicializacjaModeli.cs" />
-    <Compile Include="Migrations\201709211548058_InicializacjaModeli.Designer.cs">
-      <DependentUpon>201709211548058_InicializacjaModeli.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201709211554020_PopulateIntervalTypes.cs" />
-    <Compile Include="Migrations\201709211554020_PopulateIntervalTypes.Designer.cs">
-      <DependentUpon>201709211554020_PopulateIntervalTypes.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201709211555334_PopulateLoanType.cs" />
-    <Compile Include="Migrations\201709211555334_PopulateLoanType.Designer.cs">
-      <DependentUpon>201709211555334_PopulateLoanType.cs</DependentUpon>
+    <Compile Include="Migrations\201709211630456_InicjalizacjaModeli.cs" />
+    <Compile Include="Migrations\201709211630456_InicjalizacjaModeli.Designer.cs">
+      <DependentUpon>201709211630456_InicjalizacjaModeli.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\DueTime.cs" />
@@ -90,14 +82,8 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201709211548058_InicializacjaModeli.resx">
-      <DependentUpon>201709211548058_InicializacjaModeli.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201709211554020_PopulateIntervalTypes.resx">
-      <DependentUpon>201709211554020_PopulateIntervalTypes.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201709211555334_PopulateLoanType.resx">
-      <DependentUpon>201709211555334_PopulateLoanType.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201709211630456_InicjalizacjaModeli.resx">
+      <DependentUpon>201709211630456_InicjalizacjaModeli.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

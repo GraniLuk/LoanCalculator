@@ -52,8 +52,8 @@ namespace LoanCalculator.Tests.Models
                 {
                     Id = 1,
                     InterestRate = 0.0315m,
-                    RateInterval = new IntervalType() {Months = 1},
-                    PaymentInterval = new IntervalType() { Months = 12},
+                    RateInterval = new IntervalType() {PeriodsInYear = 1},
+                    PaymentInterval = new IntervalType() { PeriodsInYear = 12},
                     Name = "HousingLoan"
                 }
             };
@@ -110,8 +110,8 @@ namespace LoanCalculator.Tests.Models
                 {
                     Id = 1,
                     InterestRate = 0.0315m,
-                    RateInterval = new IntervalType() { Months = 1 },
-                    PaymentInterval = new IntervalType() { Months = 12 },
+                    RateInterval = new IntervalType() { PeriodsInYear = 1 },
+                    PaymentInterval = new IntervalType() { PeriodsInYear = 12 },
                     Name = "HousingLoan",
                     DueTime = DueTime.EndOfPeriod
                 }

@@ -7,13 +7,13 @@ namespace LoanCalculator.Data.Migrations
     using System.Resources;
     
     [GeneratedCode("EntityFramework.Migrations", "6.1.3-40302")]
-    public sealed partial class PopulateLoanType : IMigrationMetadata
+    public sealed partial class InicjalizacjaModeli : IMigrationMetadata
     {
-        private readonly ResourceManager Resources = new ResourceManager(typeof(PopulateLoanType));
+        private readonly ResourceManager Resources = new ResourceManager(typeof(InicjalizacjaModeli));
         
         string IMigrationMetadata.Id
         {
-            get { return "201709211555334_PopulateLoanType"; }
+            get { return "201709211630456_InicjalizacjaModeli"; }
         }
         
         string IMigrationMetadata.Source

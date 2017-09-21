@@ -22,7 +22,6 @@
 
 (function ($) {
     var $jQval = $.validator,
-        adapters,
         data_validation = "unobtrusiveValidation";
 
     function setValidationValues(options, ruleName, value) {
@@ -254,7 +253,7 @@
         }
     };
 
-    adapters = $jQval.unobtrusive.adapters;
+    var adapters = $jQval.unobtrusive.adapters;
 
     adapters.add = function (adapterName, params, fn) {
         /// <summary>Adds a new adapter to convert unobtrusive HTML into a jQuery Validate validation.</summary>

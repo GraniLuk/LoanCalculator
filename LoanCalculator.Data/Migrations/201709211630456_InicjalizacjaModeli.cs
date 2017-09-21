@@ -3,7 +3,7 @@ namespace LoanCalculator.Data.Migrations
     using System;
     using System.Data.Entity.Migrations;
     
-    public partial class InicializacjaModeli : DbMigration
+    public partial class InicjalizacjaModeli : DbMigration
     {
         public override void Up()
         {
@@ -13,7 +13,7 @@ namespace LoanCalculator.Data.Migrations
                     {
                         Id = c.Int(nullable: false, identity: true),
                         Name = c.String(),
-                        Months = c.Int(nullable: false),
+                        PeriodsInYear = c.Int(nullable: false),
                     })
                 .PrimaryKey(t => t.Id);
             

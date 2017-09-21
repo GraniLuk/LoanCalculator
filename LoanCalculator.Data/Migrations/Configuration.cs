@@ -14,12 +14,12 @@ namespace LoanCalculator.Data.Migrations
             AutomaticMigrationsEnabled = true;
         }
 
-        protected override void Seed(LoanDb context)
+        protected override void Seed(LoanCalculator.Data.LoanDb context)
         {
             context.IntervalTypes.AddOrUpdate(x => x.Id,
-                new IntervalType() { Id = 1, Months = 12, Name = "Yearly" },
-                new IntervalType() { Id = 1, Months = 1, Name = "Monthly" }
-                );
+                new IntervalType() { Id = 1, PeriodsInYear = 1, Name = "Yearly" },
+                new IntervalType() { Id = 2, PeriodsInYear = 12, Name = "Monthly" }
+            );
 
             context.LoanTypes.AddOrUpdate(x => x.Id,
                 new LoanType() { DueTime = DueTime.EndOfPeriod, Id = 1, InterestRate = 0.035m, Name = "Housing loan", PaymentIntervalId = 2, RateIntervalId = 1 });

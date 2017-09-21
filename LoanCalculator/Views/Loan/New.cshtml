@@ -15,15 +15,15 @@
         @Html.ValidationMessageFor(m => m.LoanTypeId)
     </div>
     <div id="partialPlaceHolder" style="display:none;"> </div>
-    <p>
-        <label for="NumberOfInstallments">Set desired number of installments:</label>
+    <div class="form-group">
+        @Html.LabelFor(m => m.NumberOfInstallments)
         <input type="text" id="NumberOfInstallments" name="NumberOfInstallments" readonly style="border:0; color:#1F7EFF; font-weight:bold;">
-    </p>
+    </div>
     <div id="sliderNumberOfInstallments"></div>
-    <p>
-        <label for="Amount">Set desired total amount of loan:</label>
+    <div class="form-group">
+    @Html.LabelFor(m => m.Amount)
         <input type="text" id="Amount" name="Amount" readonly style="border:0; color:#1F7EFF; font-weight:bold;">
-    </p>
+    </div>
     <div id="sliderAmount"></div>
     @Html.AntiForgeryToken()
     <button type="submit" class="btn btn-primary">Calculate</button>
