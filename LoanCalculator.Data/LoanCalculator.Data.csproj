@@ -86,13 +86,24 @@
     <Compile Include="Migrations\201709201730567_AddDueTimeToLoanType.Designer.cs">
       <DependentUpon>201709201730567_AddDueTimeToLoanType.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201709210756445_UpdateValuesInLoanType.cs" />
+    <Compile Include="Migrations\201709210756445_UpdateValuesInLoanType.Designer.cs">
+      <DependentUpon>201709210756445_UpdateValuesInLoanType.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201709210809217_ChangeScaleForInterestRate.cs" />
+    <Compile Include="Migrations\201709210809217_ChangeScaleForInterestRate.Designer.cs">
+      <DependentUpon>201709210809217_ChangeScaleForInterestRate.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201709210810063_ChangeInterestRateValue.cs" />
+    <Compile Include="Migrations\201709210810063_ChangeInterestRateValue.Designer.cs">
+      <DependentUpon>201709210810063_ChangeInterestRateValue.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\DueTime.cs" />
     <Compile Include="Models\Installment.cs" />
     <Compile Include="Models\IntervalType.cs" />
     <Compile Include="Models\Loan.cs" />
     <Compile Include="Models\LoanType.cs" />
-    <Compile Include="Models\Schedule.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -114,6 +125,15 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201709201730567_AddDueTimeToLoanType.resx">
       <DependentUpon>201709201730567_AddDueTimeToLoanType.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201709210756445_UpdateValuesInLoanType.resx">
+      <DependentUpon>201709210756445_UpdateValuesInLoanType.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201709210809217_ChangeScaleForInterestRate.resx">
+      <DependentUpon>201709210809217_ChangeScaleForInterestRate.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201709210810063_ChangeInterestRateValue.resx">
+      <DependentUpon>201709210810063_ChangeInterestRateValue.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

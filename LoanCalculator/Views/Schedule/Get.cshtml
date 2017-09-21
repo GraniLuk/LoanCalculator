@@ -1,0 +1,35 @@
+﻿@model LoanCalculator.Models.Schedule
+
+@{
+    ViewBag.Title = "title";
+}
+
+<h2>Loan Schedule</h2>
+
+<div>
+    <table class="table table-bordered table-hover">
+        <thead>
+        <tr>
+            <th>Number</th>
+            <th>Capital</th>
+            <th>Interest</th>
+            <th>Total</th>
+        </tr>
+        </thead>
+        <tbody>
+        @foreach (var installment in Model.Installments)
+        {
+            <tr>
+                <td>@installment.Number</td>
+                <td>@installment.Capital<text>zł</text></td>
+                <td>@installment.Interest<text>zł</text></td>
+                <td>@installment.Total<text>zł</text></td>
+            </tr>
+        }
+        </tbody>
+    </table>
+</div>
+
+<p>
+    @Html.ActionLink("Back to calculator","New","Loan")
+</p>

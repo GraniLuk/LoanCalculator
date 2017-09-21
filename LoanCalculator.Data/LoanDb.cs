@@ -24,6 +24,12 @@ namespace LoanCalculator.Data
 
         public virtual DbSet<LoanType> LoanTypes { get; set; }
         public virtual DbSet<Loan> Loans { get; set; }
+
+        protected override void OnModelCreating(DbModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<LoanType>().Property(loanType => loanType.InterestRate).HasPrecision(10, 4);
+            base.OnModelCreating(modelBuilder);
+        }
     }
 
     //public class MyEntity

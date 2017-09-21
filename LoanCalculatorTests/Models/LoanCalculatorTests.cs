@@ -1,8 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using LoanCalculator.Data.Models;
 using LoanCalculator.Models;
+using LoanCalculator.Models.Calculator;
 using Microsoft.VisualBasic;
 using NUnit.Framework;
 
@@ -60,12 +60,13 @@ namespace LoanCalculator.Tests.Models
             };
             var fixedRateCalculator = new FixedRateCalculator(loan);
             //Act
-            var resultSchedule =fixedRateCalculator.GetCapitalRate(1) +
-                                           fixedRateCalculator.GetInterestRate(1);
-            var expectedFirstRate = expected.FirstOrDefault(x => x.Number == 1).Interest +
-                                    expected.FirstOrDefault(x => x.Number == 1).Capital;
+            var resultCapital = fixedRateCalculator.GetCapital(1);
+            var resultInterest = fixedRateCalculator.GetInterest(1);
+            var expectedCapital = expected.FirstOrDefault(x => x.Number == 1).Capital;
+            var expectedInterest = expected.FirstOrDefault(x => x.Number == 1).Interest;
             //Assert
-            Assert.AreEqual(expectedFirstRate, resultSchedule);
+            Assert.AreEqual(expectedCapital, resultCapital);
+            Assert.AreEqual(expectedInterest, resultInterest);
         }
 
         [Test()]
@@ -118,105 +119,14 @@ namespace LoanCalculator.Tests.Models
             };
             var fixedRateCalculator = new FixedRateCalculator(loan);
             //Act
-            var resultSchedule = fixedRateCalculator.GetCapitalRate(2) +
-                                 fixedRateCalculator.GetInterestRate(2);
-            var expectedFirstRate = expected.FirstOrDefault(x => x.Number == 2).Interest +
-                                    expected.FirstOrDefault(x => x.Number == 2).Capital;
+            var resultCapital = fixedRateCalculator.GetCapital(2);
+            var resultInterest = fixedRateCalculator.GetInterest(2);
+            var expectedCapital = expected.FirstOrDefault(x => x.Number == 2).Capital;
+            var expectedInterest = expected.FirstOrDefault(x => x.Number == 2).Interest;
             //Assert
-            Assert.AreEqual(expectedFirstRate, resultSchedule);
+            Assert.AreEqual(expectedCapital, resultCapital);
+            Assert.AreEqual(expectedInterest, resultInterest);
         }
 
-    }
-
-    public class FixedRateCalculator
-    {
-        private readonly decimal _interestRatePerPeriod;
-        private readonly decimal _amountToRepay;
-        private readonly int _totalNumberOfInstallments;
-        private readonly DueTime _dueTime;
-        public FixedRateCalculator(Loan loan)
-        {
-            var partOfRateIntervalInOnePaymentInterval =
-                (decimal)loan.LoanType.RateIntervalPeriodInMonths / loan.LoanType.PaymentIntervalPeriodInMonths;
-            _interestRatePerPeriod = loan.LoanType.InterestRate * partOfRateIntervalInOnePaymentInterval;
-            _amountToRepay = -(loan.Amount);
-            _totalNumberOfInstallments = loan.NumberOfInstallments;
-            _dueTime = loan.LoanType.DueTime;
-        }
-
-        public decimal GetInterestRate(int numberOfInstallment, decimal futureValue = 0)
-        {
-            decimal presentValue = _amountToRepay;
-            decimal num = _dueTime != DueTime.EndOfPeriod ? 2 : 1;
-            if ((numberOfInstallment <= 0) || (numberOfInstallment >= (_totalNumberOfInstallments + 1)))
-            {
-                throw new ArgumentException("Number of installment is not a valid value.");
-            }
-            if ((_dueTime != DueTime.EndOfPeriod) && (numberOfInstallment == 1))
-            {
-                return 0;
-            }
-            var pmt = Pmt(_totalNumberOfInstallments, presentValue);
-            if (_dueTime != DueTime.EndOfPeriod)
-            {
-                presentValue += pmt;
-            }
-            return decimal.Round((FV_Internal(numberOfInstallment - num, pmt, presentValue) * _interestRatePerPeriod),2,MidpointRounding.AwayFromZero);
-        }
-
-        public decimal GetCapitalRate(int numberOfInstallment, decimal futureValue = 0)
-        {
-            if ((numberOfInstallment <= 0) || (numberOfInstallment >= (_totalNumberOfInstallments + 1)))
-            {
-                throw new ArgumentException("Argument 'Per' is not valid.");
-            }
-            var num2 = Pmt(_totalNumberOfInstallments, _amountToRepay);
-            var num = GetInterestRate(numberOfInstallment);
-            return decimal.Round(num2 - num,2,MidpointRounding.AwayFromZero);
-        }
-
-        private decimal FV_Internal(decimal NPer, decimal Pmt, decimal PV)
-        {
-            decimal num;
-            if (_interestRatePerPeriod == 0)
-            {
-                return (-PV - (Pmt * NPer));
-            }
-            if (_dueTime != DueTime.EndOfPeriod)
-            {
-                num = 1 + _interestRatePerPeriod;
-            }
-            else
-            {
-                num = 1;
-            }
-            decimal x = 1 + _interestRatePerPeriod;
-            decimal num2 = (decimal)Math.Pow((double)x, (double)NPer);
-            return ((-PV * num2) - (((Pmt / _interestRatePerPeriod) * num) * (num2 - 1)));
-        }
-
-        private decimal Pmt(decimal NPer, decimal PV, decimal futureValue = 0)
-        {
-            decimal num;
-            if (NPer == 0)
-            {
-                throw new ArgumentException("Argument NPer is not a valid value.");
-            }
-            if (_interestRatePerPeriod == 0)
-            {
-                return ((-futureValue - PV) / NPer);
-            }
-            if (_dueTime != DueTime.EndOfPeriod)
-            {
-                num = 1 + _interestRatePerPeriod;
-            }
-            else
-            {
-                num = 1;
-            }
-            decimal x = _interestRatePerPeriod + 1;
-            decimal num2 = (decimal)Math.Pow((double)x, (double)NPer);
-            return (-futureValue - PV * num2) / (num * (num2 - 1)) * _interestRatePerPeriod;
-        }
     }
 }

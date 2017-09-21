@@ -2,7 +2,6 @@
 @model LoanCalculator.ViewModels.LoanFormViewModel
 @{
     ViewBag.Title = "New Loan";
-    Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
 <h2>New Loan</h2>
@@ -36,8 +35,8 @@
         $(function () {
             $("#sliderAmount").slider({
                 min: 1000,
-                max: 10000,
-                step: 100,
+                max: 80000,
+                step: 1000,
                 slide: function (event, ui) {
                     $("#Amount").val(ui.value);
                 }

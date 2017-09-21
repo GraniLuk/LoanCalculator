@@ -191,7 +191,9 @@
     <Compile Include="Controllers\CalculatorController.cs" />
     <Compile Include="Controllers\LoanController.cs" />
     <Compile Include="Controllers\ScheduleController.cs" />
-    <Compile Include="Models\Calculator.cs" />
+    <Compile Include="Models\Calculator\ICalculator.cs" />
+    <Compile Include="Models\Calculator\FixedRateCalculator.cs" />
+    <Compile Include="Models\Schedule.cs" />
     <Compile Include="ViewModels\LoanFormViewModel.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -206,6 +208,7 @@
     <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Views\Shared\_NavBar.cshtml" />
     <Content Include="Views\Loan\New.cshtml" />
+    <Content Include="Views\Schedule\Get.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

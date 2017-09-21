@@ -39,7 +39,14 @@ namespace LoanCalculator.Controllers
                 return View("New",viewModel);
             }
 
-            return RedirectToAction("Calculate", "Calculator", loanFormViewModel);
+            var loan = new Loan()
+            {
+                Amount = loanFormViewModel.Amount,
+                NumberOfInstallments = loanFormViewModel.NumberOfInstallments,
+                LoanTypeId = loanFormViewModel.LoanTypeId
+            };
+
+            return RedirectToAction("Get", "Schedule", loan);
         }
 
         protected override void Dispose(bool disposing)

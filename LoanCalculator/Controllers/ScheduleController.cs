@@ -1,13 +1,29 @@
-﻿using System.Web.Mvc;
+﻿using System.Linq;
+using System.Web.Mvc;
+using LoanCalculator.Data;
 using LoanCalculator.Data.Models;
+using Schedule = LoanCalculator.Models.Schedule;
 
 namespace LoanCalculator.Controllers
 {
     public class ScheduleController : Controller
     {
-        public ActionResult Get(Schedule schedule)
+        private readonly LoanDb _db;
+
+        public ScheduleController()
         {
-            throw new System.NotImplementedException();
+            _db = new LoanDb();
+        }
+
+        public ActionResult Get(Loan loan)
+        {
+            loan.LoanType = _db.LoanTypes.FirstOrDefault(x => x.Id == loan.LoanTypeId);
+
+            return View(new Schedule(loan));
+        }
+        protected override void Dispose(bool disposing)
+        {
+            _db.Dispose();
         }
     }
 }
