@@ -1,6 +1,4 @@
 ﻿using System.Web.Mvc;
-using LoanCalculator.Data.Models;
-using LoanCalculator.Models.Calculator;
 
 namespace LoanCalculator.Controllers
 {

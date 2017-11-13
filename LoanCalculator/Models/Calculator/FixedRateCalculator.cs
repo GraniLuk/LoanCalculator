@@ -37,7 +37,7 @@ namespace LoanCalculator.Models.Calculator
             {
                 presentValue += _totalRateAmount;
             }
-            return decimal.Round((FV_Internal(numberOfInstallment - numberOfFirstMonthWithRepayment, presentValue) *
+            return decimal.Round((InternalValue(numberOfInstallment - numberOfFirstMonthWithRepayment, presentValue) *
                                   _interestRatePerPeriod),2,MidpointRounding.AwayFromZero);
         }
 
@@ -50,7 +50,7 @@ namespace LoanCalculator.Models.Calculator
             return decimal.Round(_totalRateAmount - GetInterest(numberOfInstallment), 2,MidpointRounding.AwayFromZero);
         }
 
-        private decimal FV_Internal(decimal numberOfInstallment, decimal presentValue)
+        private decimal InternalValue(decimal numberOfInstallment, decimal presentValue)
         {
 
             if (_interestRatePerPeriod == 0)

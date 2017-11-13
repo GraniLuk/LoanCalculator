@@ -2,19 +2,16 @@ using LoanCalculator.Data.Models;
 
 namespace LoanCalculator.Data.Migrations
 {
-    using System;
-    using System.Data.Entity;
     using System.Data.Entity.Migrations;
-    using System.Linq;
 
-    internal sealed class Configuration : DbMigrationsConfiguration<LoanCalculator.Data.LoanDb>
+    internal sealed class Configuration : DbMigrationsConfiguration<LoanDb>
     {
         public Configuration()
         {
             AutomaticMigrationsEnabled = true;
         }
 
-        protected override void Seed(LoanCalculator.Data.LoanDb context)
+        protected override void Seed(LoanDb context)
         {
             context.IntervalTypes.AddOrUpdate(x => x.Id,
                 new IntervalType() { Id = 1, PeriodsInYear = 1, Name = "Yearly" },

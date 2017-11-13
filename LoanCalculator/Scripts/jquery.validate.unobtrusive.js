@@ -97,7 +97,7 @@
         }
     }
 
-    function onReset(event) {  // 'this' is the form element
+    function onReset() {  // 'this' is the form element
         var $form = $(this),
             key = '__jquery_unobtrusive_validation_form_reset';
         if ($form.data(key)) {
@@ -182,14 +182,13 @@
             /// If parsing several elements, you should specify false, and manually attach the validation
             /// to the form when you are finished. The default is false.</param>
             var $element = $(element),
-                form = $element.parents("form")[0],
-                valInfo, rules, messages;
+                form = $element.parents("form")[0], rules, messages;
 
             if (!form) {  // Cannot do client-side validation without a form
                 return;
             }
 
-            valInfo = validationInfo(form);
+            var valInfo = validationInfo(form);
             valInfo.options.rules[element.name] = rules = {};
             valInfo.options.messages[element.name] = messages = {};
 
@@ -334,17 +333,16 @@
         });
     };
 
-    $jQval.addMethod("__dummy__", function (value, element, params) {
+    $jQval.addMethod("__dummy__", function () {
         return true;
     });
 
     $jQval.addMethod("regex", function (value, element, params) {
-        var match;
         if (this.optional(element)) {
             return true;
         }
 
-        match = new RegExp(params).exec(value);
+        var match = new RegExp(params).exec(value);
         return (match && (match.index === 0) && (match[0].length === value.length));
     });
 

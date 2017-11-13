@@ -1,4 +1,8 @@
-﻿
+﻿<html xmlns="http://www.w3.org/1999/xhtml"
+      xml:lang="en"
+      lang="@System.Threading.Thread.CurrentThread.CurrentUICulture.TwoLetterISOLanguageName">
+<head></head>
+<body>
 <div class="navbar navbar-inverse navbar-fixed-top">
     <div class="container">
         <div class="navbar-header">
@@ -10,8 +14,10 @@
         </div>
         <div class="navbar-collapse collapse">
             <ul class="nav navbar-nav">
-                <li> @Html.ActionLink("LoanCalculator", "Create", "Loan")</li>
+                <li> @Html.ActionLink("LoanCalculator", "New", "Loan")</li>
             </ul>
         </div>
     </div>
 </div>
+</body>
+</html>

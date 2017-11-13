@@ -18,7 +18,17 @@
 // you try to trace through "use strict" call chains. (#13335)
 // Support: Firefox 18+
 //"use strict";
-var
+    var detach = function() {
+        if ( document.addEventListener ) {
+            document.removeEventListener( "DOMContentLoaded", completed, false );
+            window.removeEventListener( "load", completed, false );
+
+        } else {
+            document.detachEvent( "onreadystatechange", completed );
+            window.detachEvent( "onload", completed );
+        }
+    };
+    var
 	// The deferred used on DOM ready
 	readyList,
 
@@ -102,18 +112,9 @@ var
 			detach();
 			jQuery.ready();
 		}
-	},
+	}
 	// Clean-up method for dom ready events
-	detach = function() {
-		if ( document.addEventListener ) {
-			document.removeEventListener( "DOMContentLoaded", completed, false );
-			window.removeEventListener( "load", completed, false );
-
-		} else {
-			document.detachEvent( "onreadystatechange", completed );
-			window.detachEvent( "onload", completed );
-		}
-	};
+        ;
 
 jQuery.fn = jQuery.prototype = {
 	// The current version of jQuery being used
@@ -1008,8 +1009,114 @@ jQuery.Callbacks = function( options ) {
 	options = typeof options === "string" ?
 		( optionsCache[ options ] || createOptions( options ) ) :
 		jQuery.extend( {}, options );
-
-	var // Flag to know if list is currently firing
+    var self = {
+        // Add a callback or a collection of callbacks to the list
+        add: function() {
+            if ( list ) {
+                // First, we save the current length
+                var start = list.length;
+                (function add( args ) {
+                    jQuery.each( args, function( _, arg ) {
+                        var type = jQuery.type( arg );
+                        if ( type === "function" ) {
+                            if ( !options.unique || !self.has( arg ) ) {
+                                list.push( arg );
+                            }
+                        } else if ( arg && arg.length && type !== "string" ) {
+                            // Inspect recursively
+                            add( arg );
+                        }
+                    });
+                })( arguments );
+                // Do we need to add the callbacks to the
+                // current firing batch?
+                if ( firing ) {
+                    firingLength = list.length;
+                    // With memory, if we're not firing then
+                    // we should call right away
+                } else if ( memory ) {
+                    firingStart = start;
+                    fire( memory );
+                }
+            }
+            return this;
+        },
+        // Remove a callback from the list
+        remove: function() {
+            if ( list ) {
+                jQuery.each( arguments, function( _, arg ) {
+                    var index;
+                    while( ( index = jQuery.inArray( arg, list, index ) ) > -1 ) {
+                        list.splice( index, 1 );
+                        // Handle firing indexes
+                        if ( firing ) {
+                            if ( index <= firingLength ) {
+                                firingLength--;
+                            }
+                            if ( index <= firingIndex ) {
+                                firingIndex--;
+                            }
+                        }
+                    }
+                });
+            }
+            return this;
+        },
+        // Check if a given callback is in the list.
+        // If no argument is given, return whether or not list has callbacks attached.
+        has: function( fn ) {
+            return fn ? jQuery.inArray( fn, list ) > -1 : !!( list && list.length );
+        },
+        // Remove all callbacks from the list
+        empty: function() {
+            list = [];
+            return this;
+        },
+        // Have the list do nothing anymore
+        disable: function() {
+            list = stack = memory = undefined;
+            return this;
+        },
+        // Is it disabled?
+        disabled: function() {
+            return !list;
+        },
+        // Lock the list in its current state
+        lock: function() {
+            stack = undefined;
+            if ( !memory ) {
+                self.disable();
+            }
+            return this;
+        },
+        // Is it locked?
+        locked: function() {
+            return !stack;
+        },
+        // Call all callbacks with the given context and arguments
+        fireWith: function( context, args ) {
+            args = args || [];
+            args = [ context, args.slice ? args.slice() : args ];
+            if ( list && ( !fired || stack ) ) {
+                if ( firing ) {
+                    stack.push( args );
+                } else {
+                    fire( args );
+                }
+            }
+            return this;
+        },
+        // Call all the callbacks with the given arguments
+        fire: function() {
+            self.fireWith( this, arguments );
+            return this;
+        },
+        // To know if the callbacks have already been called at least once
+        fired: function() {
+            return !!fired;
+        }
+    };
+    var // Flag to know if list is currently firing
 		firing,
 		// Last fire value (for non-forgettable lists)
 		memory,
@@ -1051,122 +1158,17 @@ jQuery.Callbacks = function( options ) {
 					self.disable();
 				}
 			}
-		},
+		}
 		// Actual Callbacks object
-		self = {
-			// Add a callback or a collection of callbacks to the list
-			add: function() {
-				if ( list ) {
-					// First, we save the current length
-					var start = list.length;
-					(function add( args ) {
-						jQuery.each( args, function( _, arg ) {
-							var type = jQuery.type( arg );
-							if ( type === "function" ) {
-								if ( !options.unique || !self.has( arg ) ) {
-									list.push( arg );
-								}
-							} else if ( arg && arg.length && type !== "string" ) {
-								// Inspect recursively
-								add( arg );
-							}
-						});
-					})( arguments );
-					// Do we need to add the callbacks to the
-					// current firing batch?
-					if ( firing ) {
-						firingLength = list.length;
-					// With memory, if we're not firing then
-					// we should call right away
-					} else if ( memory ) {
-						firingStart = start;
-						fire( memory );
-					}
-				}
-				return this;
-			},
-			// Remove a callback from the list
-			remove: function() {
-				if ( list ) {
-					jQuery.each( arguments, function( _, arg ) {
-						var index;
-						while( ( index = jQuery.inArray( arg, list, index ) ) > -1 ) {
-							list.splice( index, 1 );
-							// Handle firing indexes
-							if ( firing ) {
-								if ( index <= firingLength ) {
-									firingLength--;
-								}
-								if ( index <= firingIndex ) {
-									firingIndex--;
-								}
-							}
-						}
-					});
-				}
-				return this;
-			},
-			// Check if a given callback is in the list.
-			// If no argument is given, return whether or not list has callbacks attached.
-			has: function( fn ) {
-				return fn ? jQuery.inArray( fn, list ) > -1 : !!( list && list.length );
-			},
-			// Remove all callbacks from the list
-			empty: function() {
-				list = [];
-				return this;
-			},
-			// Have the list do nothing anymore
-			disable: function() {
-				list = stack = memory = undefined;
-				return this;
-			},
-			// Is it disabled?
-			disabled: function() {
-				return !list;
-			},
-			// Lock the list in its current state
-			lock: function() {
-				stack = undefined;
-				if ( !memory ) {
-					self.disable();
-				}
-				return this;
-			},
-			// Is it locked?
-			locked: function() {
-				return !stack;
-			},
-			// Call all callbacks with the given context and arguments
-			fireWith: function( context, args ) {
-				args = args || [];
-				args = [ context, args.slice ? args.slice() : args ];
-				if ( list && ( !fired || stack ) ) {
-					if ( firing ) {
-						stack.push( args );
-					} else {
-						fire( args );
-					}
-				}
-				return this;
-			},
-			// Call all the callbacks with the given arguments
-			fire: function() {
-				self.fireWith( this, arguments );
-				return this;
-			},
-			// To know if the callbacks have already been called at least once
-			fired: function() {
-				return !!fired;
-			}
-		};
+        ;
 
 	return self;
 };
 jQuery.extend({
 
 	Deferred: function( func ) {
-		var tuples = [
+	    var deferred = {};
+	    var tuples = [
 				// action, add listener, listener list, final state
 				[ "resolve", "done", jQuery.Callbacks("once memory"), "resolved" ],
 				[ "reject", "fail", jQuery.Callbacks("once memory"), "rejected" ],
@@ -1208,8 +1210,7 @@ jQuery.extend({
 				promise: function( obj ) {
 					return obj != null ? jQuery.extend( obj, promise ) : promise;
 				}
-			},
-			deferred = {};
+			};
 
 		// Keep pipe for back-compat
 		promise.pipe = promise.then;
@@ -1254,7 +1255,8 @@ jQuery.extend({
 
 	// Deferred helper
 	when: function( subordinate /* , ..., subordinateN */ ) {
-		var i = 0,
+	    var progressValues;
+	    var i = 0,
 			resolveValues = core_slice.call( arguments ),
 			length = resolveValues.length,
 
@@ -1275,9 +1277,7 @@ jQuery.extend({
 						deferred.resolveWith( contexts, values );
 					}
 				};
-			},
-
-			progressValues, progressContexts, resolveContexts;
+			}, progressContexts, resolveContexts;
 
 		// add listeners to Deferred subordinates; treat others as resolved
 		if ( length > 1 ) {
@@ -5818,7 +5818,10 @@ function winnow( elements, qualifier, keep ) {
 		return ( jQuery.inArray( elem, qualifier ) >= 0 ) === keep;
 	});
 }
-function createSafeFragment( document ) {
+
+    var nodeNames;
+
+    function createSafeFragment( document ) {
 	var list = nodeNames.split( "|" ),
 		safeFrag = document.createDocumentFragment();
 
@@ -5832,9 +5835,9 @@ function createSafeFragment( document ) {
 	return safeFrag;
 }
 
-var nodeNames = "abbr|article|aside|audio|bdi|canvas|data|datalist|details|figcaption|figure|footer|" +
-		"header|hgroup|mark|meter|nav|output|progress|section|summary|time|video",
-	rinlinejQuery = / jQuery\d+="(?:null|\d+)"/g,
+    nodeNames = "abbr|article|aside|audio|bdi|canvas|data|datalist|details|figcaption|figure|footer|" +
+        "header|hgroup|mark|meter|nav|output|progress|section|summary|time|video";
+    var rinlinejQuery = / jQuery\d+="(?:null|\d+)"/g,
 	rnoshimcache = new RegExp("<(?:" + nodeNames + ")[\\s/>]", "i"),
 	rleadingWhitespace = /^\s+/,
 	rxhtmlTag = /<(?!area|br|col|embed|hr|img|input|link|meta|param)(([\w:]+)[^>]*)\/>/gi,
@@ -8704,76 +8707,77 @@ function createTweens( animation, props ) {
 }
 
 function Animation( elem, properties, options ) {
-	var result,
+    var animation;
+    var tick = function() {
+        if ( stopped ) {
+            return false;
+        }
+        var currentTime = fxNow || createFxNow(),
+            remaining = Math.max( 0, animation.startTime + animation.duration - currentTime ),
+            // archaic crash bug won't allow us to use 1 - ( 0.5 || 0 ) (#12497)
+            temp = remaining / animation.duration || 0,
+            percent = 1 - temp,
+            index = 0,
+            length = animation.tweens.length;
+
+        for ( ; index < length ; index++ ) {
+            animation.tweens[ index ].run( percent );
+        }
+
+        deferred.notifyWith( elem, [ animation, percent, remaining ]);
+
+        if ( percent < 1 && length ) {
+            return remaining;
+        } else {
+            deferred.resolveWith( elem, [ animation ] );
+            return false;
+        }
+    };
+    animation = deferred.promise({
+        elem: elem,
+        props: jQuery.extend( {}, properties ),
+        opts: jQuery.extend( true, { specialEasing: {} }, options ),
+        originalProperties: properties,
+        originalOptions: options,
+        startTime: fxNow || createFxNow(),
+        duration: options.duration,
+        tweens: [],
+        createTween: function( prop, end ) {
+            var tween = jQuery.Tween( elem, animation.opts, prop, end,
+                animation.opts.specialEasing[ prop ] || animation.opts.easing );
+            animation.tweens.push( tween );
+            return tween;
+        },
+        stop: function( gotoEnd ) {
+            var index = 0,
+                // if we are going to the end, we want to run all the tweens
+                // otherwise we skip this part
+                length = gotoEnd ? animation.tweens.length : 0;
+            if ( stopped ) {
+                return this;
+            }
+            stopped = true;
+            for ( ; index < length ; index++ ) {
+                animation.tweens[ index ].run( 1 );
+            }
+
+            // resolve when we played the last frame
+            // otherwise, reject
+            if ( gotoEnd ) {
+                deferred.resolveWith( elem, [ animation, gotoEnd ] );
+            } else {
+                deferred.rejectWith( elem, [ animation, gotoEnd ] );
+            }
+            return this;
+        }
+    });
+    var result,
 		stopped,
 		index = 0,
 		length = animationPrefilters.length,
 		deferred = jQuery.Deferred().always( function() {
 			// don't match elem in the :animated selector
 			delete tick.elem;
-		}),
-		tick = function() {
-			if ( stopped ) {
-				return false;
-			}
-			var currentTime = fxNow || createFxNow(),
-				remaining = Math.max( 0, animation.startTime + animation.duration - currentTime ),
-				// archaic crash bug won't allow us to use 1 - ( 0.5 || 0 ) (#12497)
-				temp = remaining / animation.duration || 0,
-				percent = 1 - temp,
-				index = 0,
-				length = animation.tweens.length;
-
-			for ( ; index < length ; index++ ) {
-				animation.tweens[ index ].run( percent );
-			}
-
-			deferred.notifyWith( elem, [ animation, percent, remaining ]);
-
-			if ( percent < 1 && length ) {
-				return remaining;
-			} else {
-				deferred.resolveWith( elem, [ animation ] );
-				return false;
-			}
-		},
-		animation = deferred.promise({
-			elem: elem,
-			props: jQuery.extend( {}, properties ),
-			opts: jQuery.extend( true, { specialEasing: {} }, options ),
-			originalProperties: properties,
-			originalOptions: options,
-			startTime: fxNow || createFxNow(),
-			duration: options.duration,
-			tweens: [],
-			createTween: function( prop, end ) {
-				var tween = jQuery.Tween( elem, animation.opts, prop, end,
-						animation.opts.specialEasing[ prop ] || animation.opts.easing );
-				animation.tweens.push( tween );
-				return tween;
-			},
-			stop: function( gotoEnd ) {
-				var index = 0,
-					// if we are going to the end, we want to run all the tweens
-					// otherwise we skip this part
-					length = gotoEnd ? animation.tweens.length : 0;
-				if ( stopped ) {
-					return this;
-				}
-				stopped = true;
-				for ( ; index < length ; index++ ) {
-					animation.tweens[ index ].run( 1 );
-				}
-
-				// resolve when we played the last frame
-				// otherwise, reject
-				if ( gotoEnd ) {
-					deferred.resolveWith( elem, [ animation, gotoEnd ] );
-				} else {
-					deferred.rejectWith( elem, [ animation, gotoEnd ] );
-				}
-				return this;
-			}
 		}),
 		props = animation.props;
 

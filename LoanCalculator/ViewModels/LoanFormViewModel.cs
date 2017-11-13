@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using LoanCalculator.Data.Models;
 
@@ -15,7 +14,7 @@ namespace LoanCalculator.ViewModels
         [Required]
         public int NumberOfInstallments { get; set; }
         [Display(Name = "Loan type:")]
-        [Required]
+        [Required(ErrorMessage = "Choose loan type.")]
         public int LoanTypeId { get; set; }
     }
 }
